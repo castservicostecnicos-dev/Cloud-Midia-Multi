@@ -1,0 +1,26 @@
+# Regras de Cache e Headers HTTP para Cloudflare Pages
+
+# 1. Service Worker e Manifesto PWA: nunca cachear agressivamente no edge para garantir atualizações imediatas
+/sw.js
+  Cache-Control: public, max-age=0, must-revalidate
+  Service-Worker-Allowed: /
+
+/manifest.webmanifest
+  Cache-Control: public, max-age=0, must-revalidate
+
+/index.html
+  Cache-Control: public, max-age=0, must-revalidate
+
+# 2. Arquivos de Build Vite estáticos (com hash único no nome): cache imutável de 1 ano
+/assets/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# 3. Mídias estáticas locais e ícones
+/*.png
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+/*.jpg
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+/*.svg
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+/*.ico
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
